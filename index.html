@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ISDI</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-chartjs/dist/vue-chartjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bernii/gauge.js/dist/gauge.min.js"></script>
+    <style>
+        #app {
+            font-size: 1.2em; /* Aumentar el tamaño de la fuente */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrar todo excepto el título */
+            width: 100%;
+        }
+        h1 {
+            align-self: flex-start; /* Alinear el título a la izquierda */
+            margin-left: 20px;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .date-filter{
+            margin: 0;
+            align-self: flex-start; /* Alinear los párrafos a la izquierda */
+        }
+        .bottom-content {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        .pie-charts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        canvas {
+            max-width: 600px; /* Aumentar el ancho máximo de las gráficas */
+            max-height: 400px; /* Aumentar la altura máxima de las gráficas */
+        }
+        .date-filter {
+            margin-bottom: 20px;
+        }
+        .line-chart-container {
+                width: 100%; /* Ocupar todo el ancho disponible */
+        }
+
+        canvas {
+            max-width: 100%; /* Permitir que las gráficas ocupen todo el ancho disponible */
+            max-height: 400px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Dashboard Colegio</h1>
+        <div class="date-filter">
+            Fecha inicial: <input type="date" v-model="startDate" @change="updateData">
+            Fecha final: <input type="date" v-model="endDate" @change="updateData">
+            <p>Número total de alumnos: {{ totalAlumnos }}</p>
+            <p>Número total de pagos: {{ totalPagos }}</p>
+        </div>
+
+
+
+        <div class="line-chart-container">
+            <h2>Monto de Pagos Recibidos por Día</h2>
+            <line-chart :chart-data="dataPagosDiarios" label="Pagos diarios"></line-chart>
+        </div>  
+
+        <h2>% de Cobranza del Mes Actual</h2>
+            <gauge-chart :percentage="65"></gauge-chart>    
+        <div class="bar_chart">
+            
+            <h2>Porcentaje de Cobranza por Cosecha</h2>
+            <bar-chart :chart-data="dataPorCosecha" label="% de Cobranza por Cosecha"></bar-chart>
+        </div>
+        <div class="bottom-content">
+            <div class="pie-charts">
+                <h2>Métodos de pago</h2>
+                <pie-chart :chart-data="dataMetodosPago" label="Métodos de pago"></pie-chart>
+            </div>
+            <div class="bottom-content2">
+                <h2>Tipos de pago</h2>
+                <pie-chart :chart-data="dataTiposPago" label="Tipos de pago"></pie-chart>
+            </div>
+        </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
